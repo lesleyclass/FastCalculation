@@ -56,6 +56,16 @@ class GameActivity : AppCompatActivity(), OnPlayGame {
     }
 
     override fun onPlayGame() {
+        supportActionBar?.apply {
+            subtitle = getString(R.string.game)
+        }
         supportFragmentManager.beginTransaction().replace(R.id.gameFl, GameFragment.newInstance(settings)).commit()
+    }
+
+    override fun onResultGame() {
+        supportActionBar?.apply {
+            subtitle = getString(R.string.result)
+        }
+        supportFragmentManager.beginTransaction().replace(R.id.gameFl, ResultFragment.newInstance(settings)).commit()
     }
 }

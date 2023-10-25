@@ -8,17 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fastcalculation.Extras.EXTRA_SETTINGS
-import com.example.fastcalculation.databinding.FragmentWelcomeBinding
+import com.example.fastcalculation.databinding.FragmentResultBinding
 import com.example.util.getSettings
 
-class WelcomeFragment : Fragment() {
-    private lateinit var fragmentWelcomeBinding: FragmentWelcomeBinding
+class ResultFragment : Fragment() {
+    private lateinit var fragmentResultBinding: FragmentResultBinding
     private lateinit var settings: Settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            settings = it.getSettings(EXTRA_SETTINGS) ?: Settings()
+        settings = it.getSettings(EXTRA_SETTINGS) ?: Settings()
         }
         setHasOptionsMenu(true)
     }
@@ -28,22 +28,20 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentWelcomeBinding = FragmentWelcomeBinding.inflate(inflater, container, false)
-        getString(R.string.welcome_player, settings.playerName).also {
-            fragmentWelcomeBinding.welcomeTv.text = it
-        }
-        fragmentWelcomeBinding.welcomeTv.text= getString(R.string.welcome_player, settings.playerName)
-        fragmentWelcomeBinding.playerBt.setOnClickListener{
+        fragmentResultBinding = FragmentResultBinding.inflate(inflater, container, false)
+        fragmentResultBinding.resultLabelTv.text= getString(R.string.points)
+        fragmentResultBinding.resultValueTv.text= "${settings.points}"
+        fragmentResultBinding.resetGameBt.setOnClickListener{
             (context as OnPlayGame).onPlayGame()
         }
-        return fragmentWelcomeBinding.root
+        return fragmentResultBinding.root
     }
 
     companion object {
 
         @JvmStatic
         fun newInstance(settings: Settings) =
-            WelcomeFragment().apply {
+            ResultFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(EXTRA_SETTINGS, settings)
 

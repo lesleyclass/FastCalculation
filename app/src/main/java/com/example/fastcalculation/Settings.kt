@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class Settings(
     val playerName: String = "",
     val rounds : Int= 0,
-    val roundInterval: Long = 0L
+    val roundInterval: Long = 0L,
+    var points : Float= 0f,
 ) : Parcelable

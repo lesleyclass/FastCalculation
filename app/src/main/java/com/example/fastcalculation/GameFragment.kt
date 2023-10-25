@@ -11,12 +11,14 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.fastcalculation.Extras.EXTRA_SETTINGS
 import com.example.fastcalculation.databinding.FragmentGameBinding
+import com.example.util.getSettings
 
 class GameFragment : Fragment() {
     private lateinit var fragmentGameBinding: FragmentGameBinding
 
     private lateinit var settings: Settings
     private lateinit var calculationGame: CalculationGame
+    private var points: Float = 0f
     private var currentRound: CalculationGame.Round? = null
     private var startRoundTime = 0L
     private var totalGameTime = 0L
@@ -32,7 +34,7 @@ class GameFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            settings = it.getParcelable(EXTRA_SETTINGS) ?: Settings()
+            settings = it.getSettings(EXTRA_SETTINGS) ?: Settings()
         }
         calculationGame = CalculationGame(settings.rounds)
     }
@@ -61,6 +63,7 @@ class GameFragment : Fragment() {
         }
         play()
 
+
         return fragmentGameBinding.root
     }
 
@@ -72,7 +75,6 @@ class GameFragment : Fragment() {
             GameFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(EXTRA_SETTINGS, settings)
-
                 }
             }
     }
@@ -93,16 +95,19 @@ class GameFragment : Fragment() {
             roundDeadLineHendler.sendEmptyMessageDelayed(MSG_ROUND_DEADLINE, settings.roundInterval)
         } else {
             with(fragmentGameBinding) {
-                roundTv.text = getString(R.string.points)
-                val points = hits * 10f / (totalGameTime / 1000L)
+                points = hits * 10f / (totalGameTime / 1000L)
                 "%.1f".format(points).also {
                     questionTv.text = it
                 }
-                alternativeOneBt.visibility = View.GONE
-                alternativeTwoBt.visibility = View.GONE
-                alternativeThreeBt.visibility = View.GONE
-
+                settings.points = points
+                onResultGame()
             }
         }
     }
+
+    private fun onResultGame() {
+        (context as OnPlayGame).onResultGame()
+    }
 }
+
+

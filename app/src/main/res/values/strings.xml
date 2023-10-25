@@ -10,6 +10,7 @@
     <string name="welcome_player">Welcome, %1$s !</string>
     <string name="play">Play</string>
     <string name="points">Points</string>
+    <string name="result">Result</string>
 
     <string name="rounds">Rounds</string>
     <string name="rounds_interval">Rounds Interval</string>
